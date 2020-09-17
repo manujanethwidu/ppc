@@ -19,7 +19,7 @@ function App() {
             <button onClick={openMenu}>&#9776;</button>
           </div>
         </header>
-        <aside className="sidebar">
+        <aside className="sdf">
         
           <button className="sidebar-close-button" onClick={closeMenu}>
             x
