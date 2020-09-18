@@ -1,9 +1,15 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
 const TireBuilderScreen = () => {
+     const closeMenu = () => {
+          document.querySelector('.sidebar').classList.remove('open');
+        };
+     useEffect(() => {
+          closeMenu()
+     },[])
      return (
           <>
-               <div className="grid-container">
+               <div className="grid-container-builder">
                     <header className="header-builder">
                          header
                     </header>
