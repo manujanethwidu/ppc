@@ -12,7 +12,7 @@ body {
   color: white;
   margin-bottom: 1rem;
   padding: 2rem;
-  background: #0211e2;
+  background: #494a4e;
   border: none;
   border-radius: 0.5rem;
   margin-right: .5rem;
@@ -45,19 +45,21 @@ button {
 }
 .header {
   grid-area: header;
-  background-color: #0211e2;
+  background-color: #4b4c53;
   color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
 }
+
 .main {
   grid-area: main;
 }
+
 .footer {
   grid-area: footer;
-  background-color: #0211e2;
+  background-color: #4b4c53;
   color: #ffffff;
   display: flex;
   justify-content: center;
