@@ -1,17 +1,33 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
+import {  useDispatch } from 'react-redux';
+
+
 
 const TireBuilderScreen = () => {
-     const closeMenu = () => {
-          document.querySelector('.sidebar').classList.remove('open');
-        };
+   
+     //Close the slide bar
      useEffect(() => {
-          closeMenu()
-     },[])
+          document.querySelector('.sidebar').classList.remove('open');
+     }, [])
+
+   
+
+     // useEffect(() => {
+     //      try {
+     //           setInterval(async () => {
+
+     //           }, 1000);
+     //      } catch (e) {
+     //           console.log(e);
+     //      }
+     // }, [])
      return (
           <>
                <div className="grid-container-builder">
                     <header className="header-builder">
-                         header
+
+                         <input type="number" className="builder-scale-reading" />
+
                     </header>
                     <main className='main-builder'>
                          main
@@ -20,7 +36,6 @@ const TireBuilderScreen = () => {
                          footer
                     </footer>
                </div>
-
           </>
      )
 }
