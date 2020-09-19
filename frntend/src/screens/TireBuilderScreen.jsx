@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { fetchTireDetails } from '../redux'
+
 import SLTLDBConnection from '../apis/SLTLDBConnection'
 
 
