@@ -9,7 +9,7 @@ const LolScreen = () => {
      },[])
      return (
           <div>
-               LolScreen
+               Lol
           </div>
      )
 }

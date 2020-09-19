@@ -1,12 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import LolScreen from './screens/LolScreen';
-import { useHistory } from "react-router-dom";
 import PpcScreen from './screens/PpcScreen';
 import SchedulingScreen from './screens/SchedulingScreen';
 import TireBuilderScreen from './screens/TireBuilderScreen';
 
-const name = 'Sadun';
 const openMenu = () => {
   document.querySelector('.sidebar').classList.add('open');
 };
@@ -17,8 +15,7 @@ const closeMenu = () => {
 
 
 function App(props) {
-  const ppcHandler = () => {
-  }
+ 
   return (
     <BrowserRouter>
       <div className="grid-container">
