@@ -9,27 +9,33 @@ import { scaleReading } from '../redux/scale/scaleActions'
 
 
 const TireBuilderScreen = () => {
-
-     const [scaleWgt, setScaleWgt] = useState(0)
-     setScaleWgt(45)
-     //Redux Scale
+     const scale = useSelector(state => state.scaleData)
+     const [scaleWgt, setScaleWgt] = useState(5)
      const dispatch = useDispatch()
+
+     var { reading } = scale
      useEffect(() => {
-          dispatch(scaleReading())
+          scale.reading && setScaleWgt(scale.reading.reading.reading.substring(3, 9))
+          // console.log( scale.reading &&  Number(scale.reading.reading.reading.substring(1, 9)));
+          console.log(scale.reading && (scale.reading.reading.reading.substring(1, 9)));
+          window.setTimeout(function() {
+               window.location.href = 'file.php';
+           }, 1000);
+     }, [scale])
+
+    
+   
+
+     useEffect(() => {
+          try {
+               setInterval(async () => {
+                    dispatch(scaleReading())
+               }, 500);
+          } catch (e) {
+               console.log(e);
+          }
      }, [])
 
-
-
-
-     // useEffect(() => {
-     //      try {
-     //           setInterval(async () => {
-
-     //           }, 1000);
-     //      } catch (e) {
-     //           console.log(e);
-     //      }
-     // }, [])
 
 
 

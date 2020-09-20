@@ -7,8 +7,6 @@ import {scaleReadingReducer} from './redux/scale/scaleReducers'
 
 const initialState = {};
 const reducer = combineReducers({
-  productList: productListReducer,
-  productDetails: productDetailsReducer,
   scaleData:scaleReadingReducer
 })
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

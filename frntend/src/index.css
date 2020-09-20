@@ -19,7 +19,6 @@ body {
 }
 .button:hover,
 .link:hover {
-
   background: #4bca4b;
   border: 1 #0c0000 solid;
   font-weight: 400;
