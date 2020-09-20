@@ -10,14 +10,13 @@ import { scaleReading } from '../redux/scale/scaleActions'
 
 const TireBuilderScreen = () => {
 
-     const [scaleWgt, setScaleWgt] = useState(0)
-     setScaleWgt(45)
-     //Redux Scale
+     const [scaleWgt, setScaleWgt] = useState(5)
      const dispatch = useDispatch()
+
+  
      useEffect(() => {
           dispatch(scaleReading())
-     }, [])
-
+     },[])
 
 
 
