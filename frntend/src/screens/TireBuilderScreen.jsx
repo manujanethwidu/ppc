@@ -5,42 +5,21 @@ import SLTLDBConnection from '../apis/SLTLDBConnection'
 import scalConnection from '../apis/scalConnection'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../redux/product/productActions';
+import { scaleReading } from '../redux/scale/scaleActions'
 
 
 const TireBuilderScreen = () => {
-     
-     const productList = useSelector(state => state.productList)
-     const { products, loading, error } = productList
+
+     const [scaleWgt, setScaleWgt] = useState(0)
+     setScaleWgt(45)
+     //Redux Scale
      const dispatch = useDispatch()
-   
-
      useEffect(() => {
-          dispatch(listProducts())
-        }, [])
-
-
-     const sn = ":200104568"
-     const [tireDetilsNew, setTireDeatailsNew] = useState({})
-
-       //Fetch Data of sn
-       useEffect(() => {
-         const fetchData = async () => {
-             try {
-                 const response = await scalConnection.get(`/scale`)
-                 const tireDetails = response.data.data
-                 setTireDeatailsNew(tireDetails)
-             } catch (err) {
-                 const errMsg = err.message
-             }
-         };
-         fetchData();
-     }, []);
-     //Close the slide bar
-     useEffect(() => {
-          document.querySelector('.sidebar').classList.remove('open');
+          dispatch(scaleReading())
      }, [])
 
-    
+
+
 
      // useEffect(() => {
      //      try {
@@ -51,12 +30,19 @@ const TireBuilderScreen = () => {
      //           console.log(e);
      //      }
      // }, [])
+
+
+
+     //Close the slide bar
+     useEffect(() => {
+          document.querySelector('.sidebar').classList.remove('open');
+     }, [])
      return (
           <>
                <div className="grid-container-builder">
                     <header className="header-builder">
 
-                         <input type="number" className="builder-scale-reading" />
+                         <input className="builder-scale-reading" value={scaleWgt} />
 
                     </header>
                     <main className='main-builder'>
