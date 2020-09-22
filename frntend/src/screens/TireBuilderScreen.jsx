@@ -18,9 +18,7 @@ const TireBuilderScreen = () => {
           scale.reading && setScaleWgt(scale.reading.reading.reading.substring(3, 9))
           // console.log( scale.reading &&  Number(scale.reading.reading.reading.substring(1, 9)));
           console.log(scale.reading && (scale.reading.reading.reading.substring(1, 9)));
-          window.setTimeout(function() {
-               window.location.href = 'file.php';
-           }, 1000);
+        
      }, [scale])
 
     
