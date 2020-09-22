@@ -8,8 +8,12 @@ const LolScreen = () => {
           closeMenu()
      },[])
      return (
-          <div>
-               Lol
+          <div className="parent">
+            
+               <section className="section-1"></section>
+               <section className="section-2">
+                    <div class='move-me'></div>
+               </section>
           </div>
      )
 }

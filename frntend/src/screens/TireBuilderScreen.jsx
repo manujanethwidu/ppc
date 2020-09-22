@@ -4,27 +4,30 @@ import React, { useState, useEffect } from 'react'
 import SLTLDBConnection from '../apis/SLTLDBConnection'
 import scalConnection from '../apis/scalConnection'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../redux/product/productActions';
 import { scaleReading } from '../redux/scale/scaleActions'
 
 
 const TireBuilderScreen = () => {
      const scale = useSelector(state => state.scaleData)
-     const [scaleWgt, setScaleWgt] = useState(5)
+
+     const [sWgt,setSWgt] = useState(0)
+     const [scaleWgt, setScaleWgt] = useState("No Connection")
+     const[finalWgt,setFinalWgt] = useState()
      const dispatch = useDispatch()
 
      var { reading } = scale
      useEffect(() => {
-          scale.reading && setScaleWgt(scale.reading.reading.reading.substring(3, 9))
-          // console.log( scale.reading &&  Number(scale.reading.reading.reading.substring(1, 9)));
-          console.log(scale.reading && (scale.reading.reading.reading.substring(1, 9)));
-          window.setTimeout(function() {
-               window.location.href = 'file.php';
-           }, 1000);
+          try {
+               scale.reading &&
+               scale.reading && setScaleWgt(scale.reading.reading.reading.substring(3, 11))
+               scale.reading &&   setSWgt(scale.reading.reading.reading.substring(4, 9))
+          } catch (error) {
+               alert(
+                 'ASDF'
+            )   
+          }
      }, [scale])
 
-    
-   
 
      useEffect(() => {
           try {
@@ -49,6 +52,7 @@ const TireBuilderScreen = () => {
                     <header className="header-builder">
 
                          <input className="builder-scale-reading" value={scaleWgt} />
+                         <input className="builder-scale-reading" value = {sWgt}></input>
 
                     </header>
                     <main className='main-builder'>
