@@ -16,6 +16,30 @@
 main {
   height: 100vh;
   display: grid;
+  grid-template-columns: repeat(auto-fill,400px);
+  /* //auto-fit minmax() */
+  grid-auto-rows: minmax(100px,auto) ;
+  grid-template-areas:
+    "box1 box2 box2"
+    "box3 box3 ." ;
+}
+
+.box1 {
+  grid-area: box1;
+  align-self: end;
+}
+
+.box2 {
+  grid-area: box2;
+}
+.box3 {
+  grid-area: box3;
+}
+
+
+/* main {
+  height: 100vh;
+  display: grid;
   grid-template-columns: 1fr ;
   grid-template-rows: 1fr 1fr ;
   grid-template-areas:
@@ -33,7 +57,7 @@ main {
 }
 .box3 {
   grid-area: box3;
-}
+} */
 
 /* main{
      height: 50vh;
