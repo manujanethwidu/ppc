@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { scaleReading } from '../redux/scale/scaleActions'
-import Footer from '../components/Footer'
+import FooterComp from '../components/FooterComp'
+import ScaleComp from '../components/ScaleComp'
 
 
 
@@ -16,26 +17,25 @@ const TireBuilderScreen = () => {
      const [finalWgt, setFinalWgt] = useState()
      const [stable, setStable] = useState(false)
      const [stblTimeOut, setStblTimeOut] = useState(0)
-
-
-
-
-
+     const [stblTimeOutSetting, setStblTimeOutSetting] = useState(500)
      const dispatch = useDispatch()
      var { reading } = scale
 
+     //Fetch data from redux store
      useEffect(() => {
           try {
+               //state Setters
                scale.reading &&
                     scale.reading && setScaleWgt(scale.reading.reading.reading.substring(3, 11))
                scale.reading && setSWgt(Number(scale.reading.reading.reading.substring(4, 9)))
                const lr = JSON.parse(localStorage.getItem("cr"))
 
+               //Timer action
                const sto = { reading: sWgt, time: Date.now() }
                if (lr.reading !== sWgt) {
                     localStorage.setItem("cr", JSON.stringify(sto))
                }
-               if ((Date.now() - lr.time) > 5000) {
+               if ((Date.now() - lr.time) > stblTimeOutSetting) {
                     setStable(true)
                }
                setStblTimeOut((Date.now() - lr.time))
@@ -46,6 +46,7 @@ const TireBuilderScreen = () => {
      }, [scale])
 
 
+     //Fetch from localhost:4000/sc  and store in redux store with timer
      useEffect(() => {
           try {
                setInterval(async () => {
@@ -60,21 +61,20 @@ const TireBuilderScreen = () => {
      useEffect(() => {
           document.querySelector('.sidebar').classList.remove('open');
      }, [])
+
      return (
           <>
                <div className="grid-container-builder">
 
                     <header className="header-builder">
-
-                         <input className="builder-scale-reading" value={scaleWgt} readOnly />
-                         <input className="builder-scale-reading" value={sWgt} readOnly></input>
-
+                         <ScaleComp scaleWgt={scaleWgt} sWgt={sWgt} />
                     </header>
                     <main className='main-builder'>
 
                     </main>
                     <footer className='footer-builder'>
-                         <Footer stblTimeOut={stblTimeOut} />
+                         <FooterComp stblTimeOut={stblTimeOut} stblTimeOutSetting={stblTimeOutSetting} />
+
                     </footer>
                </div>
           </>

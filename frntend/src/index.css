@@ -60,9 +60,7 @@ button {
   grid-area: footer;
   background-color: #4b4c53;
   color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  
 }
 
 /* ************************************************** */
@@ -102,44 +100,6 @@ button {
 }
 /* ****************************************** */
 
-.sbleTimeOut-1 {
-  background-color: #FF0000 ;
-}
-.sbleTimeOut-2 {
-  background-color: #FF3300  ;
-}
-.sbleTimeOut-3 {
-  background-color: #ff6600  ;
-}
-.sbleTimeOut-4 {
-  background-color: #ff9900  ;
-}
-.sbleTimeOut-5 {
-  background-color: #FFCC00 ;
-}
-.sbleTimeOut-6 {
-  background-color: #d4d419 ;
-}
-.sbleTimeOut-7 {
-  background-color: #ccff00;
-}
-.sbleTimeOut-8 {
-  background-color: #2dc40f;
-}
-.sbleTimeOut-9 {
-  background-color: #1f9907;
-}
-.sbleTimeOut-10 {
-  background-color: #197506;
-}
-.sbleTimeOut-11 {
-  background-color: #136602;
-}
-.sbleTimeOut-ok {
-  background-color: green;
-}
-
-
 /* Sidebar */
 
 .brand button {
@@ -177,5 +137,3 @@ button {
   right: 0.5rem;
   top: 1.5rem;
 }
-
-/* Product Details */
