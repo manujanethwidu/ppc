@@ -15,7 +15,7 @@ body {
   background: #494a4e;
   border: none;
   border-radius: 0.5rem;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 .button:hover,
 .link:hover {
@@ -81,7 +81,6 @@ button {
   margin: 1rem;
 }
 .header-builder {
-
   grid-area: header-builder;
   display: flex;
   flex-wrap: wrap;
@@ -96,70 +95,49 @@ button {
   grid-area: footer-builder;
 }
 
-.builder-scale-reading{
-  margin: .5rem;
+.builder-scale-reading {
+  margin: 0.5rem;
   font-size: 2rem;
   width: 25rem;
 }
 /* ****************************************** */
 
-.parent{
-
+.sbleTimeOut-1 {
+  background-color: #FF0000 ;
 }
-
-.child-one{
-
+.sbleTimeOut-2 {
+  background-color: #FF3300  ;
 }
-.child-two{
-
+.sbleTimeOut-3 {
+  background-color: #ff6600  ;
 }
-.child-three{
-
+.sbleTimeOut-4 {
+  background-color: #ff9900  ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.sbleTimeOut-5 {
+  background-color: #FFCC00 ;
+}
+.sbleTimeOut-6 {
+  background-color: #d4d419 ;
+}
+.sbleTimeOut-7 {
+  background-color: #ccff00;
+}
+.sbleTimeOut-8 {
+  background-color: #2dc40f;
+}
+.sbleTimeOut-9 {
+  background-color: #1f9907;
+}
+.sbleTimeOut-10 {
+  background-color: #197506;
+}
+.sbleTimeOut-11 {
+  background-color: #136602;
+}
+.sbleTimeOut-ok {
+  background-color: green;
+}
 
 
 /* Sidebar */
@@ -187,7 +165,7 @@ button {
 }
 
 .sidebar-close-button {
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   border: 0.1rem #000000 solid;
   width: 3rem;
   height: 3rem;
