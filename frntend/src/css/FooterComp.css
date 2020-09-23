@@ -3,15 +3,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
- 
+  align-items: flex-start;
+
 }
 
 /* Timer */
 .timer-container {
-  margin-left: 5rem;
   flex: 1, 1, 10rem;
 }
+
 .timeout-text {
   font-size: 3rem;
   padding: 1rem;

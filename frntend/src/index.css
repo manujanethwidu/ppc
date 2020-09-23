@@ -60,9 +60,7 @@ button {
   grid-area: footer;
   background-color: #4b4c53;
   color: #ffffff;
-  
 }
-
 /* ************************************************** */
 /* Tire Builder */
 
@@ -75,8 +73,7 @@ button {
     "footer-builder";
   grid-template-columns: 1fr;
   grid-template-rows: 5rem 1fr 5rem;
-  height: 82vh;
-  margin: 1rem;
+  height: calc(100vh - 14rem);
 }
 .header-builder {
   grid-area: header-builder;
@@ -84,15 +81,12 @@ button {
   flex-wrap: wrap;
   align-items: stretch;
 }
-
 .main-builder {
   grid-area: main-builder;
 }
-
 .footer-builder {
   grid-area: footer-builder;
 }
-
 .builder-scale-reading {
   margin: 0.5rem;
   font-size: 2rem;

@@ -21,6 +21,17 @@ const TireBuilderScreen = () => {
      const dispatch = useDispatch()
      var { reading } = scale
 
+
+     // 
+
+     const [tireCode, setTireCode] = React.useState("xxxx");
+
+     function handleChange(newValue) {
+          setTireCode(newValue);
+     }
+
+
+     // 
      //Fetch data from redux store
      useEffect(() => {
           try {
@@ -73,7 +84,9 @@ const TireBuilderScreen = () => {
 
                     </main>
                     <footer className='footer-builder'>
-                         <FooterComp stblTimeOut={stblTimeOut} stblTimeOutSetting={stblTimeOutSetting} />
+                         <FooterComp stblTimeOut={stblTimeOut} stblTimeOutSetting={stblTimeOutSetting}
+                              tireCode={tireCode} onChange={handleChange}
+                         />
 
                     </footer>
                </div>
