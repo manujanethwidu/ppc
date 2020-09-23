@@ -60,11 +60,7 @@ button {
   grid-area: footer;
   background-color: #4b4c53;
   color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-
 /* ************************************************** */
 /* Tire Builder */
 
@@ -77,8 +73,7 @@ button {
     "footer-builder";
   grid-template-columns: 1fr;
   grid-template-rows: 5rem 1fr 5rem;
-  height: 82vh;
-  margin: 1rem;
+  height: calc(100vh - 14rem);
 }
 .header-builder {
   grid-area: header-builder;
@@ -86,59 +81,18 @@ button {
   flex-wrap: wrap;
   align-items: stretch;
 }
-
 .main-builder {
   grid-area: main-builder;
 }
-
 .footer-builder {
   grid-area: footer-builder;
 }
-
 .builder-scale-reading {
   margin: 0.5rem;
   font-size: 2rem;
   width: 25rem;
 }
 /* ****************************************** */
-
-.sbleTimeOut-1 {
-  background-color: #FF0000 ;
-}
-.sbleTimeOut-2 {
-  background-color: #FF3300  ;
-}
-.sbleTimeOut-3 {
-  background-color: #ff6600  ;
-}
-.sbleTimeOut-4 {
-  background-color: #ff9900  ;
-}
-.sbleTimeOut-5 {
-  background-color: #FFCC00 ;
-}
-.sbleTimeOut-6 {
-  background-color: #d4d419 ;
-}
-.sbleTimeOut-7 {
-  background-color: #ccff00;
-}
-.sbleTimeOut-8 {
-  background-color: #2dc40f;
-}
-.sbleTimeOut-9 {
-  background-color: #1f9907;
-}
-.sbleTimeOut-10 {
-  background-color: #197506;
-}
-.sbleTimeOut-11 {
-  background-color: #136602;
-}
-.sbleTimeOut-ok {
-  background-color: green;
-}
-
 
 /* Sidebar */
 
@@ -177,5 +131,3 @@ button {
   right: 0.5rem;
   top: 1.5rem;
 }
-
-/* Product Details */
