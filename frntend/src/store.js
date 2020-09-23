@@ -1,8 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import {
-  productListReducer,
-  productDetailsReducer} from './redux/product/productReducers';
 import {scaleReadingReducer} from './redux/scale/scaleReducers'
 
 const initialState = {};
