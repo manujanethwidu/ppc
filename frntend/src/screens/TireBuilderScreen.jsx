@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { scaleReading } from '../redux/scale/scaleActions'
 import FooterComp from '../components/FooterComp'
 import ScaleComp from '../components/ScaleComp'
+import SLTLDBConnection from '../apis/SLTLDBConnection'
 
 
 
@@ -18,18 +19,48 @@ const TireBuilderScreen = () => {
      const [stable, setStable] = useState(false)
      const [stblTimeOut, setStblTimeOut] = useState(0)
      const [stblTimeOutSetting, setStblTimeOutSetting] = useState(500)
+     const [tireDetail, setTireDetail] = useState({})
+
+
      const dispatch = useDispatch()
      var { reading } = scale
 
 
-     // 
+     // Tire Code//////
 
      const [tireCode, setTireCode] = React.useState("xxxx");
+     const { tirecode,
+          pid,
+          tiresizebasic,
+          config,
+          color,
+          lugtype,
+          rimsize,
+          tiretype } = tireDetail
 
      function handleChange(newValue) {
           setTireCode(newValue);
      }
+   
 
+     useEffect(() => {
+
+          if (tireCode.length === 5) {
+               const fetchData = async () => {
+                    const { data, status } = await SLTLDBConnection.get(`/get-tc-details/10520`)
+
+                    if (((data.data.data.length > 0))) {
+                         setTireDetail(data.data.data[0])
+                    } else {
+                         setTireDetail({})
+                    }
+               }
+               fetchData()
+               console.log(tireDetail);
+
+          }
+     }
+          , [tireCode])
 
      // 
      //Fetch data from redux store
@@ -59,12 +90,13 @@ const TireBuilderScreen = () => {
 
      //Fetch from localhost:4000/sc  and store in redux store with timer
      useEffect(() => {
-          try {
-               setInterval(async () => {
-                    dispatch(scaleReading())
+         
+             const timer =   setInterval(async () => {
+                    //  dispatch(scaleReading())
                }, 300);
-          } catch (e) {
-               console.log(e);
+         
+          return () => {
+               clearInterval(timer)
           }
      }, [])
 

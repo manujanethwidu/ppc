@@ -2,13 +2,15 @@ import React from 'react'
 import { msToTime, cssGetter } from '../utils/footerUtils'
 import '../css/FooterComp.css';
 
-const FooterComp = ({ stblTimeOut, stblTimeOutSetting,tireCode,onChange }) => {
+const FooterComp = ({ stblTimeOut, stblTimeOutSetting, tireCode, onChange }) => {
 
      const stblTimeOutcss = cssGetter(stblTimeOut, stblTimeOutSetting)
 
      const handleChange = (event) => {
-          onChange(event.target.value);
-}
+          
+               onChange(event.target.value);
+        
+     }
 
      return (
           <div className="footer-container">
@@ -20,9 +22,10 @@ const FooterComp = ({ stblTimeOut, stblTimeOutSetting,tireCode,onChange }) => {
                <div className="tire-code-container">
                     <input
                          id="tire-code"
-                         type="number"
+                         type="text"
                          value={tireCode}
-                         onChange={(event)=>handleChange(event)}
+                         onChange={(event) => handleChange(event)}
+                         maxLength="6"
                     />
                </div>
           </div>
