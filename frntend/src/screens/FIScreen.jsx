@@ -1,16 +1,60 @@
-import React,{useEffect} from 'react'
+import React, { useEffect,useState } from 'react'
 import ListView from '../components/fi/ListView';
-
+import SLTLDBConnection from '../apis/SLTLDBConnection'
 const FIScreen = () => {
+     
+//Slide Bar////////////////////////
      const closeMenu = () => {
           document.querySelector('.sidebar').classList.remove('open');
      };
      useEffect(() => {
           closeMenu()
      }, [])
+//////////////////////////////////////////////////
+
+const [val, setVal] = useState(489);
+const [tireDetails, setTireDeatails] = useState([])
+   
+  //getFilterdSn List
+  const fetchDataSN = async () => {
+     try {
+         // const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/1/${val}`)
+         const response = await SLTLDBConnection.get(`/get_tiredetails_filterd_sntext/${val}`)
+         console.log(response.data.data);
+         setTireDeatails(response.data.data)
+     } catch (err) {
+         console.error(err.message)
+     }
+ }
+
+ //Get last day produciton
+ const fetchDataLastDay = async () => {
+     try {
+         const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/100`)
+         setTireDeatails(response.data.data)
+     } catch (err) {
+         console.error(err.message)
+     }
+ }
+
+ useEffect(() => {
+     //if input is empty call initial Fetching. Otherwise call sn Filtering fetching
+     if (val == "") {
+         fetchDataLastDay()
+     } else {
+         fetchDataSN()
+     }
+
+ }, [val])
+
+
+     
+     function handleChange(newValue) {
+          setVal(newValue);
+     }
      return (
           <div>
-              <ListView/>
+               <ListView handleChange={handleChange} val={val} tireDetails={tireDetails} />
           </div>
      )
 }
