@@ -22,7 +22,7 @@ const ListView = ({ handleChange, val, tireDetails }) => {
     //Click row then go to edit-spec-page
     const handleSelectRow = (sn, specid) => {
         // fetchTireDetails(sn)
-        history.push(`/editspec/:${sn}/:${specid}`)
+        history.push(`/ftr/${sn}`)
     }
     //-------------------------------------
 
@@ -50,7 +50,7 @@ const ListView = ({ handleChange, val, tireDetails }) => {
                             <th className="text-primary">Type</th>
                             <th className="text-primary">Rim</th>
                             <th className="text-primary">Brand/SWMsg</th>
-                            <th className="text-primary">PID</th>
+                            <th className="text-primary">M-No</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +62,7 @@ const ListView = ({ handleChange, val, tireDetails }) => {
                                     <td> {el.tiretypecap}</td>
                                     <td>{el.brand}/{el.swmsg}</td>
                                     <td>{el.pid}</td>
+                                    <td>{el.moldno}</td>
                                 </tr>
                             ))}
                     </tbody>
