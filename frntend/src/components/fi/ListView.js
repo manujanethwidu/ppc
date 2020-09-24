@@ -4,54 +4,19 @@ import SLTLDBConnection from '../../apis/SLTLDBConnection'
 import { useHistory, useParams } from 'react-router-dom'
 
 
-const ListView = () => {
-
-    const [tireDetails, setTireDeatails] = useState([])
+const ListView = ({ handleChange, val, tireDetails }) => {
     const [symbolsArr] = useState(["e", "E", "+", "-", "."]);
-    const [val, setVal] = useState('')
-
     let history = useHistory()
 
     //SN onChange Handler
     const snHndler = (e) => {
-        setVal(e.target.value)
+        handleChange(e.target.value)
     }
     //SN onKey Handler
     const snKeyHandler = (e) => {
          symbolsArr.includes(e.key) && e.preventDefault()
     }
 
-    //getFilterdSn List
-    const fetchDataSN = async () => {
-        try {
-            // const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/1/${val}`)
-            const response = await SLTLDBConnection.get(`/get_tiredetails_filterd_sntext/${val}`)
-            console.log(response.data.data);
-            setTireDeatails(response.data.data)
-        } catch (err) {
-            console.error(err.message)
-        }
-    }
-
-    //Get last day produciton
-    const fetchDataLastDay = async () => {
-        try {
-            const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/100`)
-            setTireDeatails(response.data.data)
-        } catch (err) {
-            console.error(err.message)
-        }
-    }
-
-    useEffect(() => {
-        //if input is empty call initial Fetching. Otherwise call sn Filtering fetching
-        if (val == "") {
-            fetchDataLastDay()
-        } else {
-            fetchDataSN()
-        }
-
-    }, [val])
 
     //Handlers----------------------------
     //Click row then go to edit-spec-page
@@ -77,7 +42,7 @@ const ListView = () => {
                                     type="number"
                                     value={val}
                                     onChange={(e) => snHndler(e)}
-                                    onKeyDown={e=>snKeyHandler(e)}
+                                    onKeyDown={e => snKeyHandler(e)}
                                 />
                             </th>
 
