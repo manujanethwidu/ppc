@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import FIScreen from './screens/FIScreen';
+import FTRScreen from './screens/FTRScreen';
+import ListScreen from './screens/ListScreen';
 import LolScreen from './screens/LolScreen';
 import PpcScreen from './screens/PpcScreen';
 import SchedulingScreen from './screens/SchedulingScreen';
@@ -75,6 +77,7 @@ function App(props) {
             <Route path="/sch" component={SchedulingScreen} />
             <Route path="/tb" component={TireBuilderScreen} />
             <Route path="/fi" component={FIScreen} />
+            <Route path="/ftr/:sn" component={FTRScreen} />
             
           </div>
         </main>
