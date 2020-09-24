@@ -4,13 +4,22 @@ import SLTLDBConnection from '../../apis/SLTLDBConnection'
 import { useHistory, useParams } from 'react-router-dom'
 
 
-const ListView = ({ fetchTireDetails, selectedTireDetails }) => {
+const ListView = () => {
 
     const [tireDetails, setTireDeatails] = useState([])
     const [symbolsArr] = useState(["e", "E", "+", "-", "."]);
     const [val, setVal] = useState('')
 
     let history = useHistory()
+
+    //SN onChange Handler
+    const snHndler = (e) => {
+        setVal(e.target.value)
+    }
+    //SN onKey Handler
+    const snKeyHandler = (e) => {
+         symbolsArr.includes(e.key) && e.preventDefault()
+    }
 
     //getFilterdSn List
     const fetchDataSN = async () => {
@@ -57,7 +66,7 @@ const ListView = ({ fetchTireDetails, selectedTireDetails }) => {
     return (
         <>
             <div className="">
-                <table className="table-responsive{-sm|-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
+                <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
                     <thead>
                         <tr>
                             <th >
@@ -67,8 +76,8 @@ const ListView = ({ fetchTireDetails, selectedTireDetails }) => {
                                     id="sn"
                                     type="number"
                                     value={val}
-                                    onChange={e => setVal(e.target.value)}
-                                    onKeyDown={e => symbolsArr.includes(e.key) && e.preventDefault()}
+                                    onChange={(e) => snHndler(e)}
+                                    onKeyDown={e=>snKeyHandler(e)}
                                 />
                             </th>
 
@@ -100,17 +109,4 @@ const ListView = ({ fetchTireDetails, selectedTireDetails }) => {
 
 
 
-//redux connectors 
-const mapStateToProps = state => {
-    return {
-        selectedTireDetails: state.tireDetails
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchTireDetails: (sn) => dispatch(fetchTireDetails(sn))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListView)
+export default ListView

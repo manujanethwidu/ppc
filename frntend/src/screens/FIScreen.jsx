@@ -1,4 +1,5 @@
 import React,{useEffect} from 'react'
+import ListView from '../components/fi/ListView';
 
 const FIScreen = () => {
      const closeMenu = () => {
@@ -9,7 +10,7 @@ const FIScreen = () => {
      }, [])
      return (
           <div>
-               FI Screen
+              <ListView/>
           </div>
      )
 }
