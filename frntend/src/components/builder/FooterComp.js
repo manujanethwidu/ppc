@@ -1,6 +1,6 @@
 import React from 'react'
-import { msToTime, cssGetter } from '../utils/footerUtils'
-import '../css/FooterComp.css';
+import { msToTime, cssGetter } from '../../utils/footerUtils'
+import '../../css/FooterComp.css';
 
 const FooterComp = ({ stblTimeOut, stblTimeOutSetting, tireCode, onChange }) => {
 

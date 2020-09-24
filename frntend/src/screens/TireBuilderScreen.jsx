@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { scaleReading } from '../redux/scale/scaleActions'
-import FooterComp from '../components/FooterComp'
-import ScaleComp from '../components/ScaleComp'
+import FooterComp from '../components/builder/FooterComp'
+import ScaleComp from '../components/builder/ScaleComp'
 import SLTLDBConnection from '../apis/SLTLDBConnection'
+import MainCompTB from '../components/builder/MainCompTB'
 
 
 
@@ -20,31 +21,23 @@ const TireBuilderScreen = () => {
      const [stblTimeOut, setStblTimeOut] = useState(0)
      const [stblTimeOutSetting, setStblTimeOutSetting] = useState(500)
      const [tireDetail, setTireDetail] = useState({})
-
-
+     
      const dispatch = useDispatch()
      var { reading } = scale
 
 
      // Tire Code//////
 
-     const [tireCode, setTireCode] = React.useState("xxxx");
-     const { tirecode,
-          pid,
-          tiresizebasic,
-          config,
-          color,
-          lugtype,
-          rimsize,
-          tiretype } = tireDetail
+     const [tireCode, setTireCode] = React.useState("xx1xx");
+   
 
      function handleChange(newValue) {
           setTireCode(newValue);
      }
-   
+
 
      useEffect(() => {
-
+          setTireDetail({})
           if (tireCode.length === 5) {
                const fetchData = async () => {
                     const { data, status } = await SLTLDBConnection.get(`/get-tc-details/10520`)
@@ -90,11 +83,11 @@ const TireBuilderScreen = () => {
 
      //Fetch from localhost:4000/sc  and store in redux store with timer
      useEffect(() => {
-         
-             const timer =   setInterval(async () => {
-                    //  dispatch(scaleReading())
-               }, 300);
-         
+
+          const timer = setInterval(async () => {
+               //  dispatch(scaleReading())
+          }, 300);
+
           return () => {
                clearInterval(timer)
           }
@@ -113,7 +106,7 @@ const TireBuilderScreen = () => {
                          <ScaleComp scaleWgt={scaleWgt} sWgt={sWgt} />
                     </header>
                     <main className='main-builder'>
-
+                         {tireDetail.tirecode && <MainCompTB tireDetail={tireDetail} />}
                     </main>
                     <footer className='footer-builder'>
                          <FooterComp stblTimeOut={stblTimeOut} stblTimeOutSetting={stblTimeOutSetting}

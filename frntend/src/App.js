@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import FIScreen from './screens/FIScreen';
 import LolScreen from './screens/LolScreen';
 import PpcScreen from './screens/PpcScreen';
 import SchedulingScreen from './screens/SchedulingScreen';
@@ -58,6 +59,13 @@ function App(props) {
                 </button>
               </Link>
             </div>
+            <div>
+              <Link to="/fi">
+                <button className='button link full-width'>
+                  Final Inspection
+                </button>
+              </Link>
+            </div>
           </ul>
         </aside>
         <main className="main">
@@ -66,6 +74,7 @@ function App(props) {
             <Route path="/ppc" component={PpcScreen} />
             <Route path="/sch" component={SchedulingScreen} />
             <Route path="/tb" component={TireBuilderScreen} />
+            <Route path="/fi" component={FIScreen} />
             
           </div>
         </main>
