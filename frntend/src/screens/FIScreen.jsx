@@ -12,15 +12,17 @@ const FIScreen = () => {
      }, [])
 //////////////////////////////////////////////////
 
-const [val, setVal] = useState(489);
+const [val, setVal] = useState("");
 const [tireDetails, setTireDeatails] = useState([])
    
   //getFilterdSn List
   const fetchDataSN = async () => {
      try {
          // const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/1/${val}`)
-         const response = await SLTLDBConnection.get(`/get_tiredetails_filterd_sntext/${val}`)
-         console.log(response.data.data);
+       //getFilterd100Tires
+          //getLast100Tires
+          const response = await SLTLDBConnection.get(`/get_tiredetails_filterd_sntext/${val}`)
+     
          setTireDeatails(response.data.data)
      } catch (err) {
          console.error(err.message)
@@ -30,7 +32,7 @@ const [tireDetails, setTireDeatails] = useState([])
  //Get last day produciton
  const fetchDataLastDay = async () => {
      try {
-         const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/100`)
+         const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/300`)
          setTireDeatails(response.data.data)
      } catch (err) {
          console.error(err.message)
@@ -44,7 +46,7 @@ const [tireDetails, setTireDeatails] = useState([])
      } else {
          fetchDataSN()
      }
-
+console.log(tireDetails[1]);
  }, [val])
 
 
