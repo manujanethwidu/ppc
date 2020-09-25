@@ -1,12 +1,342 @@
-import React from 'react'
+import React, { useState } from 'react'
+import '../../css/FtrComp.css'
 
-const FtrComp = ({tireDetails}) => {
-console.log(tireDetails);
+const FtrComp = ({ tireDetails }) => {
+     const { tiresizebasic,
+          lugtype,
+          config,
+          rimsize,
+          tiretypecap,
+          brand,
+          swmsg,
+          moldno
+
+     } = tireDetails
+     const [hd, setHd] = useState("")
+     const [defSummery, setDefSummery] = useState({
+          tf: 0,
+          mm: 0,
+          ld: 0,
+          bo: 0,
+          bg: 0,
+          bfm: 0,
+          trfm: 0,
+          speu: 0,
+          sndp: 0,
+          other: 0,
+          nmdirty: 0,
+     })
+     const [defOther, setDefOther] = useState({
+          for_mat: 0,
+          app_dam: 0,
+          no_type: 0,
+          peek: 0,
+          plate_dammage: 0
+     })
+     const { tf, mm, ld, bo, bg, bfm, trfm, speu, sndp, other, nmdirty } = defSummery
+     const { for_mat, app_dam, no_type, peek, plate_dammage } = defOther
+
+     const handleInputChange = (e) => {
+          const target = e.target;
+          switch (target.name) {
+               case "tf":
+                    setDefSummery({ ...defSummery, tf: e.target.value })
+                    break
+               case "mm":
+                    setDefSummery({ ...defSummery, mm: e.target.value })
+                    break
+               case "ld":
+                    setDefSummery({ ...defSummery, ld: e.target.value })
+                    break
+               case "bo":
+                    setDefSummery({ ...defSummery, bo: e.target.value })
+                    break
+               case "bg":
+                    setDefSummery({ ...defSummery, bg: e.target.value })
+                    break
+               case "bfm":
+                    setDefSummery({ ...defSummery, bfm: e.target.value })
+                    break
+               case "trfm":
+                    setDefSummery({ ...defSummery, trfm: e.target.value })
+                    break
+               case "speu":
+                    setDefSummery({ ...defSummery, speu: e.target.value })
+                    break
+               case "sndp":
+                    setDefSummery({ ...defSummery, sndp: e.target.value })
+                    break
+               case "nmdirty":
+                    setDefSummery({ ...defSummery, nmdirty: e.target.value })
+                    break
+               case "other":
+                    setDefSummery({ ...defSummery, other: e.target.value })
+                    switch (e.target.value) {
+                         case "for_mat":
+                              setDefOther({ ...defOther, for_mat: 1 })
+                              break
+                         case "app_dam":
+                              setDefOther({ ...defOther, app_dam: 1 })
+                              break
+                         case "no_type":
+                              setDefOther({ ...defOther, no_type: 1 })
+                              break
+                         case "peek":
+                              setDefOther({ ...defOther, peek: 1 })
+                              break
+                         case "plate_dammage":
+                              setDefSummery({ ...defOther, plate_dammage: 1 })
+                              break
+                    }
+                    break
+
+          }
+     }
+
+     const clickHandler = (e) => {
+          setHd(e.target.name)
+
+     }
      return (
           <div className='fi-container'>
-               <div></div>
-              
+               <div className="row">
+                    <div className='tire-detail'>
+                         {tiresizebasic} {lugtype} {config} {rimsize} {tiretypecap} {brand} / {swmsg}
+                         <br />
+                         <p>MoldNo:-{moldno}</p>
+                    </div>
+               </div>
+               <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div className="btn-group mr-2" role="group" aria-label="First group">
+                         HD:-{hd}
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='60'>60</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='61'>61</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='62'>62</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='63'>63</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='64'>64</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='65'>65</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='66'>66</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='67'>67</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='68'>68</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='69'>69</button>
+                         <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='70'>70</button>
+                    </div>
+               </div>
+               <div className='table-containter'>
+                    <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
+
+                         <tbody>
+                              <tr className="table-warning">
+                                   <td>US Reading</td>
+                                   <td><input type='number' className='form-control ' /></td>
+                              </tr>
+                         </tbody>
+                    </table>
+               </div>
+               <div className='table-containter'>
+                    <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
+                         <thead>
+                              <tr>
+
+                                   <th scope="col-5" className="text-primary">Defect</th>
+                                   <th className="text-primary">Scale</th>
+
+                              </tr>
+                         </thead>
+                         <tbody>
+                              {/* TRead...................--------------------------------------------......... */}
+                              <tr>
+
+                                   <td>Thick Flash</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="tf"
+                                             value={tf}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">3mm</option>
+                                             <option value="5">5mm</option>
+                                             <option value="7">7mm</option>
+                                             <option value="10">10mm</option>
+                                        </select>
+                                   </td>
+                              </tr>
+                              <tr>
+                                   <td>Mold Mark</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="mm"
+                                             value={mm}
+                                             onChange={e => handleInputChange(e)}
+
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Small</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+                              <tr>
+                                   <td>Back Grinding</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="bg"
+                                             value={bg}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Small</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+                              <tr>
+                                   <td>Lug Damage</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="ld"
+                                             value={ld}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="3">-</option>
+                                             <option value="5">1-3</option>
+                                             <option value="7">4-6</option>
+                                             <option value="10">7-10</option>
+                                             <option value="100">10+</option>
+                                        </select>
+                                   </td>
+                              </tr>
+                              <tr>
+                                   <td>Tr Flow Mark</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="trfm"
+                                             value={trfm}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Small</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+                              <tr>
+                                   <td>Speu Particles</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="speu"
+                                             value={speu}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Miner</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+                              <tr>
+                                   <td>NM Dirty</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="nmdirty"
+                                             value={nmdirty}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Small</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+
+                              {/* Base ---------------------------------------------------------------------------*/}
+                              <tr>
+                                   <td>Base Flow Mark</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="bfm"
+                                             value={bfm}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Small</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+
+
+
+
+                              <tr>
+                                   <td>Bead Out</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="bo"
+                                             value={bo}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Small</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+
+                              {/* SW ------------------------------------------------------------------- */}
+                              <tr>
+                                   <td>Stensil No Displacement</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="sndp"
+                                             value={sndp}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="1">Small</option>
+                                             <option value="2">Medium</option>
+                                             <option value="3">High</option>
+                                        </select>
+                                   </td>
+                              </tr>
+
+
+                              {/* Others------------------------------ */}
+                              <tr>
+                                   <td>Others</td>
+                                   <td>
+                                        <select className="form-control"
+                                             name="other"
+                                             value={other}
+                                             onChange={e => handleInputChange(e)}
+                                        >
+                                             <option value="0">-</option>
+                                             <option value="for_mat">Forign Matters</option>
+                                             <option value="app_dam">Appure Dammage</option>
+                                             <option value="no_type">No Type</option>
+                                             <option value="peek" >Peek</option>
+                                             <option value='plate_dammage'>Plate Dammage</option>
+
+                                        </select>
+                                   </td>
+                              </tr>
+                             
+                         </tbody>
+                    </table>
+
+               </div>
+               <button className='btn btn-primary' onClick={() => console.log(hd)}>Ener</button>
           </div>
+
+
      )
 }
 
