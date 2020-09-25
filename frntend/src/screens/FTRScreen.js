@@ -8,11 +8,7 @@ const FTRScreen = ({ match }) => {
      //Fetch data
      const fetchDataSN = async () => {
           try {
-               // const response = await SLTLDBConnection.get(`/get_tiredetails_of_given_noof_dates_back_frm_mfg_tbl/1/${val}`)
-               //getFilterd100Tires
-               //getLast100Tires
                const response = await SLTLDBConnection.get(`/get_tiredetails_filterd_sntext/${sn}`)
-
                setTireDeatails(response.data.data[0])
           } catch (err) {
                console.error(err.message)
