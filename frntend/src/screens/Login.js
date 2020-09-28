@@ -1,0 +1,122 @@
+import React, { Fragment, useState, useEffect } from "react";
+import { Link, Redirect } from "react-router-dom";
+import SLTLDBConnection from '../apis/SLTLDBConnection'
+
+//Toastify
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css"
+toast.configure()
+
+
+const notifySuccess = (msg) => {
+     toast.success(msg, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000
+     })
+}
+
+const notifyError = (msg) => {
+     toast.error(msg, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000
+     })
+}
+
+const notifyWarning = (msg) => {
+     toast.success(msg, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000
+     })
+}
+
+const notifyInfo = (msg) => {
+     toast.success(msg, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000
+     })
+}
+
+// ------------------------------------------------------------------------
+
+const Login = ({ setAuth, setUserData, uname }) => {
+     const [inputs, setInputs] = useState({
+          name: "b",
+          password: "c"
+     });
+     const { name, password } = inputs;
+
+     const onChange = e =>
+          setInputs({ ...inputs, [e.target.name]: e.target.value });
+
+     const onSubmitForm = async e => {
+          e.preventDefault();
+          try {
+               const response = await SLTLDBConnection.put(`/auth/insertuser`, {
+                    "name": name,
+                    "password": password,
+               })
+
+               if (!response.data.error) {
+                    const {
+                         user_name,
+                         user_password,
+                         auth_level,
+                         isadmin,
+                         department
+                    } = response.data.data.user
+                    const user = {
+                         user_name,
+                         user_password,
+                         auth_level,
+                         isadmin,
+                         department
+
+                    }
+                    setUserData(user)
+                    setAuth(true)
+
+               }
+               if (response.data.error) {
+                    setAuth(false)
+                    notifyError(response.data.error)
+               }
+
+
+
+
+          } catch (err) {
+               console.error(err.message)
+          }
+     };
+
+
+
+     return (
+          <div className='container'>
+               <h1 className="mt-5 text-center">Login</h1>
+               <form onSubmit={onSubmitForm}>
+                    <input
+                         type="text"
+                         name="name"
+                         placeholder="Name"
+                         value={name}
+                         onChange={e => onChange(e)}
+                         className="form-control my-3"
+                    />
+                    <input
+                         placeholder="Password"
+                         type="password"
+                         name="password"
+                         value={password}
+                         onChange={e => onChange(e)}
+                         className="form-control my-3"
+                    />
+                    <button className="btn btn-success btn-block">Enter</button>
+               </form>
+
+               {uname}
+          </div>
+     );
+};
+
+export default Login;

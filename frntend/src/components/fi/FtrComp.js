@@ -1,7 +1,26 @@
 import React, { useState } from 'react'
 import '../../css/FtrComp.css'
 
+
+function shallowEqual(object1, object2) {
+     const keys1 = Object.keys(object1);
+     const keys2 = Object.keys(object2);
+
+     if (keys1.length !== keys2.length) {
+          return false;
+     }
+
+     for (let key of keys1) {
+          if (object1[key] != object2[key]) {
+               return false;
+          }
+     }
+
+     return true;
+}
+
 const FtrComp = ({ tireDetails }) => {
+     //Destructrue props
      const { tiresizebasic,
           lugtype,
           config,
@@ -9,11 +28,13 @@ const FtrComp = ({ tireDetails }) => {
           tiretypecap,
           brand,
           swmsg,
-          moldno
+          moldno,
+          sn
 
      } = tireDetails
-     const [hd, setHd] = useState("")
-     const [defSummery, setDefSummery] = useState({
+
+     //Initial state of useStates
+     const initDefSummery = {
           tf: 0,
           mm: 0,
           ld: 0,
@@ -25,14 +46,19 @@ const FtrComp = ({ tireDetails }) => {
           sndp: 0,
           other: 0,
           nmdirty: 0,
-     })
-     const [defOther, setDefOther] = useState({
+     }
+     const initDefOther = {
           for_mat: 0,
           app_dam: 0,
           no_type: 0,
           peek: 0,
           plate_dammage: 0
-     })
+     }
+
+     const [hd, setHd] = useState("")
+     const [defSummery, setDefSummery] = useState(initDefSummery)
+     const [defOther, setDefOther] = useState(initDefOther)
+     //Destructre states
      const { tf, mm, ld, bo, bg, bfm, trfm, speu, sndp, other, nmdirty } = defSummery
      const { for_mat, app_dam, no_type, peek, plate_dammage } = defOther
 
@@ -106,7 +132,7 @@ const FtrComp = ({ tireDetails }) => {
                          <p>MoldNo:-{moldno}</p>
                     </div>
                </div>
-               <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+               <div className="btn-toolbar">
                     <div className="btn-group mr-2" role="group" aria-label="First group">
                          HD:-{hd}
                          <button onClick={e => clickHandler(e)} type="button" className="btn btn-secondary" name='60'>60</button>
@@ -133,6 +159,11 @@ const FtrComp = ({ tireDetails }) => {
                          </tbody>
                     </table>
                </div>
+               {shallowEqual(defSummery, initDefSummery) & hd > 0 ?
+                    <div>
+                         <button className='btn btn-primary form-control' onClick={() => console.log(hd)}>A+</button>
+                    </div> :
+                    <div> </div>}
                <div className='table-containter'>
                     <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
                          <thead>
@@ -328,12 +359,65 @@ const FtrComp = ({ tireDetails }) => {
                                         </select>
                                    </td>
                               </tr>
-                             
+
                          </tbody>
                     </table>
 
                </div>
-               <button className='btn btn-primary' onClick={() => console.log(hd)}>Ener</button>
+
+               
+            
+           
+               
+               {shallowEqual(defSummery, initDefSummery)  ?
+                    <></>
+                    :
+                    <>
+                         {hd > 0 ?
+                     <div>
+                     <div className="button-group">
+                          <div className='table-containter'>
+                               <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
+ 
+                                    <tbody>
+                                         <tr>
+                                              <td> <button className='btn btn-primary form-control'>A</button></td>
+ 
+                                         </tr>
+ 
+                                    </tbody>
+                               </table>
+                          </div>
+                     </div>
+                     <div className='table-containter'>
+                          <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
+ 
+                               <tbody>
+                                    <tr>
+                                         <td> <button className='btn btn-success form-control'>B</button></td>
+                                         <td> <button className='btn btn-warning form-control'>C</button></td>
+                                         <td> <button className='btn btn-info form-control'>E</button></td>
+                                         <td> <button className='btn btn-danger form-control'>R</button></td>
+                                         <td> <button className='btn btn-secondary form-control'>L</button></td>
+                                    </tr>
+ 
+                               </tbody>
+                          </table>
+                     </div>
+                              </div>
+                              :
+                <></>              
+                    }
+                    </>
+               }
+ 
+
+             
+
+
+
+
+
           </div>
 
 

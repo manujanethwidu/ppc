@@ -1,8 +1,9 @@
-import React from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import React,{useState} from 'react';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 import FIScreen from './screens/FIScreen';
 import FTRScreen from './screens/FTRScreen';
 import ListScreen from './screens/ListScreen';
+import Login from './screens/Login';
 import LolScreen from './screens/LolScreen';
 import PpcScreen from './screens/PpcScreen';
 import SchedulingScreen from './screens/SchedulingScreen';
@@ -18,7 +19,25 @@ const closeMenu = () => {
 
 
 function App(props) {
- 
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const setAuth = boolean => {
+    setIsAuthenticated(boolean);
+  };
+
+  const [userData, setUserDataa] = useState({
+    user_name: "",
+    user_password: "",
+    auth_level: "",
+    isadmin: "",
+    department: ""
+  })
+  
+  const setUserData = () => {
+    setUserDataa({})
+  }
+
   return (
     <BrowserRouter>
       <div className="grid-container">
@@ -72,13 +91,15 @@ function App(props) {
         </aside>
         <main className="main">
           <div className="content">
-            <Route path="/lol" component={LolScreen} />
-            <Route path="/ppc" component={PpcScreen} />
-            <Route path="/sch" component={SchedulingScreen} />
-            <Route path="/tb" component={TireBuilderScreen} />
-            <Route path="/fi" component={FIScreen} />
-            <Route path="/ftr/:sn" component={FTRScreen} />
-            
+            <Switch>
+              <Route exact path='/' render={props => (<Login {...props} setAuth={setAuth} setUserData={setUserData} uname={userData.name}/>)} />
+              <Route path="/lol" component={LolScreen} />
+              <Route path="/ppc" component={PpcScreen} />
+              <Route path="/sch" component={SchedulingScreen} />
+              <Route path="/tb" component={TireBuilderScreen} />
+              <Route path="/fi" component={FIScreen} />
+              <Route path="/ftr/:sn" component={FTRScreen} />
+            </Switch>
           </div>
         </main>
         <footer className='footer'>
