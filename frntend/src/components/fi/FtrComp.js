@@ -1,6 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../css/FtrComp.css'
+import { useHistory } from 'react-router-dom'
 import SLTLDBConnection from '../../apis/SLTLDBConnection'
+
+//Toastify
+import { notifyError, notifySuccessQk } from '../../utils/toastify'
+import Login from '../../screens/Login'
 
 
 function shallowEqual(object1, object2) {
@@ -20,9 +25,9 @@ function shallowEqual(object1, object2) {
 }
 
 const FtrComp = ({ tireDetails }) => {
+
+     let history = useHistory()
      //Destructrue props
-
-
      const { tiresizebasic,
           lugtype,
           config,
@@ -51,54 +56,28 @@ const FtrComp = ({ tireDetails }) => {
           other: 0,
           nmdirty: 0,
      }
-     const initDefOther = {
-          for_mat: 0,
-          app_dam: 0,
-          no_type: 0,
-          peek: 0,
-          plate_dammage: 0
-     }
+
 
      const [hd, setHd] = useState("")
      const [defSummery, setDefSummery] = useState(initDefSummery)
-     const [defOther, setDefOther] = useState(initDefOther)
+     const [us, setUs] = useState()
      //Destructre states
      const { tf, mm, ld, bo, bg, bfm, trfm, speu, sndp, other, nmdirty } = defSummery
-     const { for_mat, app_dam, no_type, peek, plate_dammage } = defOther
-
-     const btnGradekHandler = async () => {
 
 
+     useEffect(() => {
+          const fetchData = async () => {
+               try {
+                    console.log('fetching');
+                    const fiInfo = await SLTLDBConnection.get(`/fi/fi`, { sn });
+                    console.log(fiInfo.data);
+               } catch (err) {
+                    console.log(err.message);
+               }
+          }
+          fetchData()
 
-          const updatedRestaurant = await SLTLDBConnection.put(`/fi/fi/${sn}`, {
-               sn,
-               pid,
-               moldno,
-               moldid,
-               userid:5,
-               username:"xxx",
-               tf,
-               mm,
-               ld,
-               bo,
-               bg,
-               bfm,
-               trfm,
-               speu,
-               sndp,
-               other,
-               nmdirty,
-               for_mat,
-               app_dam,
-               no_type,
-               peek,
-               plate_dammage
-          });
-          //Hide button itself
-          // document.getElementById("btnEnter").style.visibility = 'hidden'
-
-updatedRestaurant()
-     }
+     }, [])
 
      const handleInputChange = (e) => {
           const target = e.target;
@@ -135,31 +114,55 @@ updatedRestaurant()
                     break
                case "other":
                     setDefSummery({ ...defSummery, other: e.target.value })
-                    switch (e.target.value) {
-                         case "for_mat":
-                              setDefOther({ ...defOther, for_mat: 1 })
-                              break
-                         case "app_dam":
-                              setDefOther({ ...defOther, app_dam: 1 })
-                              break
-                         case "no_type":
-                              setDefOther({ ...defOther, no_type: 1 })
-                              break
-                         case "peek":
-                              setDefOther({ ...defOther, peek: 1 })
-                              break
-                         case "plate_dammage":
-                              setDefSummery({ ...defOther, plate_dammage: 1 })
-                              break
-                         default : break
-                    }
                     break
-               default: break
           }
      }
-//Set HD
+
+     //ButtonHandlers------------------------
+     //Set HD
      const clickHandler = (e) => {
           setHd(e.target.name)
+     }
+
+     //Enter data
+     const btnTireGradeHandler = async () => {
+          const updatedRestaurant = await SLTLDBConnection.put(`/fi/fi/${sn}`, {
+               sn,
+               pid,
+               moldno,
+               moldid,
+               userid: 5,
+               username: "xxx",
+               tf,
+               mm,
+               ld,
+               bo,
+               bg,
+               bfm,
+               trfm,
+               speu,
+               sndp,
+               other,
+               nmdirty,
+               hd,
+               us,
+
+
+          });
+          //Hide button itself
+          // document.getElementById("btnEnter").style.visibility = 'hidden'
+
+          console.log(updatedRestaurant);
+          if (updatedRestaurant.data.error) {
+               return notifyError(updatedRestaurant.data.error)
+          }
+
+          // history.push(`/fi`)
+          notifySuccessQk('updated')
+     }
+
+     const goBackHandler = () => {
+          history.push(`/fi`)
      }
      return (
           <div className='fi-container'>
@@ -192,14 +195,32 @@ updatedRestaurant()
                          <tbody>
                               <tr className="table-warning">
                                    <td>US Reading</td>
-                                   <td><input type='number' className='form-control ' /></td>
+                                   <td><input
+                                        value={us}
+                                        onChange={e => setUs(e.target.value)}
+                                        type='number'
+                                        className='form-control ' />
+                                   </td>
+                                   <td>
+                                        <button
+
+                                             onClick={goBackHandler}
+                                             className='btn btn-warning form-control'>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </button>
+                                   </td>
                               </tr>
                          </tbody>
                     </table>
                </div>
                {shallowEqual(defSummery, initDefSummery) & hd > 0 ?
                     <div>
-                         <button className='btn btn-primary form-control' onClick={btnGradekHandler}>A+</button>
+                         <button
+                              name="A+"
+                              className='btn btn-primary form-control'
+                              onClick={e => btnTireGradeHandler(e)}>
+                              A+
+                         </button>
                     </div> :
                     <div> </div>}
                <div className='table-containter'>
@@ -385,12 +406,11 @@ updatedRestaurant()
                                              onChange={e => handleInputChange(e)}
                                         >
                                              <option value="0">-</option>
-                                             <option value="for_mat">Forign Matters</option>
-                                             <option value="app_dam">Appure Dammage</option>
-                                             <option value="no_type">No Type</option>
-                                             <option value="peek" >Peek</option>
-                                             <option value='plate_dammage'>Plate Dammage</option>
-
+                                             <option value="1">Forign Matters</option>
+                                             <option value="2">Appure Dammage</option>
+                                             <option value="3">No Type</option>
+                                             <option value="4" >Peek</option>
+                                             <option value='5'>Plate Dammage</option>
                                         </select>
                                    </td>
                               </tr>
@@ -416,10 +436,14 @@ updatedRestaurant()
 
                                                   <tbody>
                                                        <tr>
-                                                            <td> <button className='btn btn-primary form-control'>A</button></td>
-
+                                                            <td> <button
+                                                                 className='btn btn-primary form-control'
+                                                                 name="A"
+                                                                 onClick={e => btnTireGradeHandler(e)}>
+                                                                 A
+                                                                 </button>
+                                                            </td>
                                                        </tr>
-
                                                   </tbody>
                                              </table>
                                         </div>
@@ -429,11 +453,31 @@ updatedRestaurant()
 
                                              <tbody>
                                                   <tr>
-                                                       <td> <button className='btn btn-success form-control'>B</button></td>
-                                                       <td> <button className='btn btn-warning form-control'>C</button></td>
-                                                       <td> <button className='btn btn-info form-control'>E</button></td>
-                                                       <td> <button className='btn btn-danger form-control'>R</button></td>
-                                                       <td> <button className='btn btn-secondary form-control'>L</button></td>
+                                                       <td> <button name="B"
+                                                            onClick={e => btnTireGradeHandler(e)}
+                                                            className='btn btn-success form-control'>B
+                                                            </button>
+                                                       </td>
+                                                       <td> <button name="C"
+                                                            onClick={e => btnTireGradeHandler(e)}
+                                                            className='btn btn-warning form-control'>C
+                                                            </button>
+                                                       </td>
+                                                       <td> <button name="E"
+                                                            onClick={e => btnTireGradeHandler(e)}
+                                                            className='btn btn-info form-control'>E
+                                                            </button>
+                                                       </td>
+                                                       <td> <button name="R"
+                                                            onClick={e => btnTireGradeHandler(e)}
+                                                            className='btn btn-danger form-control'>R
+                                                            </button>
+                                                       </td>
+                                                       <td> <button name="L"
+                                                            onClick={e => btnTireGradeHandler(e)}
+                                                            className='btn btn-secondary form-control'>L
+                                                            </button>
+                                                       </td>
                                                   </tr>
 
                                              </tbody>
