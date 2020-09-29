@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import FtrComp from '../components/fi/FtrComp'
 import SLTLDBConnection from '../apis/SLTLDBConnection'
 
+//Toastify
+import {notifyInfo,notifyWarning,notifyError,notifySuccess} from '../utils/toastify'
+
 const FTRScreen = ({ match,userData }) => {
      const [tireDetails, setTireDeatails] = useState([])
      const sn = match.params.sn

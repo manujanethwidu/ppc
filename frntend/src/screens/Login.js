@@ -3,40 +3,11 @@ import { Link, Redirect } from "react-router-dom";
 import SLTLDBConnection from '../apis/SLTLDBConnection'
 
 //Toastify
-import {  toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css"
-toast.configure()
+import {notifyInfo,notifyWarning,notifyError,notifySuccess} from '../utils/toastify'
 
 
-const notifySuccess = (msg) => {
-     toast.success(msg, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000
-     })
-}
 
-const notifyError = (msg) => {
-     toast.error(msg, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000
-     })
-}
 
-const notifyWarning = (msg) => {
-     toast.success(msg, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000
-     })
-}
-
-const notifyInfo = (msg) => {
-     toast.success(msg, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000
-     })
-}
-
-// ------------------------------------------------------------------------
 
 const Login = ({ setAuth, setUserData, uname }) => {
      const [inputs, setInputs] = useState({
@@ -82,10 +53,7 @@ const Login = ({ setAuth, setUserData, uname }) => {
                     setAuth(false)
                     notifyError(response.data.error)
                }
-
-
-
-
+               
           } catch (err) {
                console.error(err.message)
           }
