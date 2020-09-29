@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Route, Link, Switch, Redirect } from 'react-router-dom';
 import FIScreen from './screens/FIScreen';
 import FTRScreen from './screens/FTRScreen';
 import ListScreen from './screens/ListScreen';
@@ -33,9 +33,10 @@ function App(props) {
     isadmin: "",
     department: ""
   })
-  
-  const setUserData = () => {
-    setUserDataa({})
+
+  const setUserData = (user) => {
+    setUserDataa(user)
+
   }
 
   return (
@@ -92,12 +93,15 @@ function App(props) {
         <main className="main">
           <div className="content">
             <Switch>
-              <Route exact path='/' render={props => (<Login {...props} setAuth={setAuth} setUserData={setUserData} uname={userData.name}/>)} />
+              <Route exact path='/' render={props => !isAuthenticated ?
+                ((<Login {...props} setAuth={setAuth} setUserData={setUserData}  />)) :
+                (<Redirect to="/fi" />)
+              } />
               <Route path="/lol" component={LolScreen} />
               <Route path="/ppc" component={PpcScreen} />
               <Route path="/sch" component={SchedulingScreen} />
               <Route path="/tb" component={TireBuilderScreen} />
-              <Route path="/fi" component={FIScreen} />
+              <Route path="/fi" render={props=>(<FIScreen/>)} />
               <Route path="/ftr/:sn" component={FTRScreen} />
             </Switch>
           </div>

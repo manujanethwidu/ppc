@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import SLTLDBConnection from '../apis/SLTLDBConnection'
 
 //Toastify
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
 toast.configure()
 
@@ -74,7 +74,9 @@ const Login = ({ setAuth, setUserData, uname }) => {
                     }
                     setUserData(user)
                     setAuth(true)
-
+                    console.log('=================');
+                    console.log(user);
+                  
                }
                if (response.data.error) {
                     setAuth(false)

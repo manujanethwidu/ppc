@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import '../../css/FtrComp.css'
+import SLTLDBConnection from '../../apis/SLTLDBConnection'
 
 
 function shallowEqual(object1, object2) {
@@ -15,12 +16,13 @@ function shallowEqual(object1, object2) {
                return false;
           }
      }
-
      return true;
 }
 
 const FtrComp = ({ tireDetails }) => {
      //Destructrue props
+
+
      const { tiresizebasic,
           lugtype,
           config,
@@ -29,6 +31,8 @@ const FtrComp = ({ tireDetails }) => {
           brand,
           swmsg,
           moldno,
+          pid,
+          moldid,
           sn
 
      } = tireDetails
@@ -61,6 +65,40 @@ const FtrComp = ({ tireDetails }) => {
      //Destructre states
      const { tf, mm, ld, bo, bg, bfm, trfm, speu, sndp, other, nmdirty } = defSummery
      const { for_mat, app_dam, no_type, peek, plate_dammage } = defOther
+
+     const btnGradekHandler = async () => {
+
+
+
+          const updatedRestaurant = await SLTLDBConnection.put(`/fi/fi/${sn}`, {
+               sn,
+               pid,
+               moldno,
+               moldid,
+               userid:5,
+               username:"xxx",
+               tf,
+               mm,
+               ld,
+               bo,
+               bg,
+               bfm,
+               trfm,
+               speu,
+               sndp,
+               other,
+               nmdirty,
+               for_mat,
+               app_dam,
+               no_type,
+               peek,
+               plate_dammage
+          });
+          //Hide button itself
+          // document.getElementById("btnEnter").style.visibility = 'hidden'
+
+updatedRestaurant()
+     }
 
      const handleInputChange = (e) => {
           const target = e.target;
@@ -113,15 +151,15 @@ const FtrComp = ({ tireDetails }) => {
                          case "plate_dammage":
                               setDefSummery({ ...defOther, plate_dammage: 1 })
                               break
+                         default : break
                     }
                     break
-
+               default: break
           }
      }
-
+//Set HD
      const clickHandler = (e) => {
           setHd(e.target.name)
-
      }
      return (
           <div className='fi-container'>
@@ -161,7 +199,7 @@ const FtrComp = ({ tireDetails }) => {
                </div>
                {shallowEqual(defSummery, initDefSummery) & hd > 0 ?
                     <div>
-                         <button className='btn btn-primary form-control' onClick={() => console.log(hd)}>A+</button>
+                         <button className='btn btn-primary form-control' onClick={btnGradekHandler}>A+</button>
                     </div> :
                     <div> </div>}
                <div className='table-containter'>
@@ -303,9 +341,6 @@ const FtrComp = ({ tireDetails }) => {
                                    </td>
                               </tr>
 
-
-
-
                               <tr>
                                    <td>Bead Out</td>
                                    <td>
@@ -365,54 +400,54 @@ const FtrComp = ({ tireDetails }) => {
 
                </div>
 
-               
-            
-           
-               
-               {shallowEqual(defSummery, initDefSummery)  ?
+
+
+
+
+               {shallowEqual(defSummery, initDefSummery) ?
                     <></>
                     :
                     <>
                          {hd > 0 ?
-                     <div>
-                     <div className="button-group">
-                          <div className='table-containter'>
-                               <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
- 
-                                    <tbody>
-                                         <tr>
-                                              <td> <button className='btn btn-primary form-control'>A</button></td>
- 
-                                         </tr>
- 
-                                    </tbody>
-                               </table>
-                          </div>
-                     </div>
-                     <div className='table-containter'>
-                          <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
- 
-                               <tbody>
-                                    <tr>
-                                         <td> <button className='btn btn-success form-control'>B</button></td>
-                                         <td> <button className='btn btn-warning form-control'>C</button></td>
-                                         <td> <button className='btn btn-info form-control'>E</button></td>
-                                         <td> <button className='btn btn-danger form-control'>R</button></td>
-                                         <td> <button className='btn btn-secondary form-control'>L</button></td>
-                                    </tr>
- 
-                               </tbody>
-                          </table>
-                     </div>
+                              <div>
+                                   <div className="button-group">
+                                        <div className='table-containter'>
+                                             <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
+
+                                                  <tbody>
+                                                       <tr>
+                                                            <td> <button className='btn btn-primary form-control'>A</button></td>
+
+                                                       </tr>
+
+                                                  </tbody>
+                                             </table>
+                                        </div>
+                                   </div>
+                                   <div className='table-containter'>
+                                        <table className="table-responsive{-sm-md|-lg|-xl} table mt-2 text-left table-hover table-sm">
+
+                                             <tbody>
+                                                  <tr>
+                                                       <td> <button className='btn btn-success form-control'>B</button></td>
+                                                       <td> <button className='btn btn-warning form-control'>C</button></td>
+                                                       <td> <button className='btn btn-info form-control'>E</button></td>
+                                                       <td> <button className='btn btn-danger form-control'>R</button></td>
+                                                       <td> <button className='btn btn-secondary form-control'>L</button></td>
+                                                  </tr>
+
+                                             </tbody>
+                                        </table>
+                                   </div>
                               </div>
                               :
-                <></>              
-                    }
+                              <></>
+                         }
                     </>
                }
- 
 
-             
+
+
 
 
 

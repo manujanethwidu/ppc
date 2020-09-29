@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import FtrComp from '../components/fi/FtrComp'
 import SLTLDBConnection from '../apis/SLTLDBConnection'
 
-const FTRScreen = ({ match }) => {
+const FTRScreen = ({ match,userData }) => {
      const [tireDetails, setTireDeatails] = useState([])
      const sn = match.params.sn
      //Fetch data
@@ -23,7 +23,7 @@ const FTRScreen = ({ match }) => {
      }, [])
      return (
           <div>
-               <FtrComp tireDetails={tireDetails} />
+               <FtrComp tireDetails={tireDetails} userData={userData} />
           </div>
      )
 }
