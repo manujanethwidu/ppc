@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import SLTLDBConnection from '../../apis/SLTLDBConnection'
 
 //Toastify
-import { notifyError, notifySuccessQk } from '../../utils/toastify'
+import { notifyError, notifySuccessQk,notifyWarningQk } from '../../utils/toastify'
 import Login from '../../screens/Login'
 
 
@@ -42,6 +42,28 @@ const FtrComp = ({ tireDetails }) => {
 
      } = tireDetails
 
+     //Check already inspected tire
+     useEffect(() => {
+          const fetchData = async () => {
+               try {
+                    console.log(sn);
+                    const fiInfo = await SLTLDBConnection.get(`/fi/fi/${sn}`)
+                    
+                    console.log(fiInfo.data);
+                    if (fiInfo.data.data) {
+                         setIsInspected(true)
+                          history.push(`/fi`)
+                          notifyWarningQk('already barcoded')
+                    }
+                   
+               } catch (err) {
+                    console.log(err.message);
+               }
+          }
+          fetchData()
+          
+
+     }, [tireDetails])
      //Initial state of useStates
      const initDefSummery = {
           tf: 0,
@@ -61,23 +83,10 @@ const FtrComp = ({ tireDetails }) => {
      const [hd, setHd] = useState("")
      const [defSummery, setDefSummery] = useState(initDefSummery)
      const [us, setUs] = useState()
+     const[isInspected,setIsInspected] = useState(false)
      //Destructre states
      const { tf, mm, ld, bo, bg, bfm, trfm, speu, sndp, other, nmdirty } = defSummery
 
-
-     useEffect(() => {
-          const fetchData = async () => {
-               try {
-                    console.log('fetching');
-                    const fiInfo = await SLTLDBConnection.get(`/fi/fi`, { sn });
-                    console.log(fiInfo.data);
-               } catch (err) {
-                    console.log(err.message);
-               }
-          }
-          fetchData()
-
-     }, [])
 
      const handleInputChange = (e) => {
           const target = e.target;
@@ -125,7 +134,7 @@ const FtrComp = ({ tireDetails }) => {
      }
 
      //Enter data
-     const btnTireGradeHandler = async () => {
+     const btnTireGradeHandler = async (e) => {
           const updatedRestaurant = await SLTLDBConnection.put(`/fi/fi/${sn}`, {
                sn,
                pid,
@@ -146,6 +155,7 @@ const FtrComp = ({ tireDetails }) => {
                nmdirty,
                hd,
                us,
+               grade:e.target.name
 
 
           });
@@ -157,7 +167,7 @@ const FtrComp = ({ tireDetails }) => {
                return notifyError(updatedRestaurant.data.error)
           }
 
-          // history.push(`/fi`)
+          history.push(`/fi`)
           notifySuccessQk('updated')
      }
 
@@ -170,7 +180,7 @@ const FtrComp = ({ tireDetails }) => {
                     <div className='tire-detail'>
                          {tiresizebasic} {lugtype} {config} {rimsize} {tiretypecap} {brand} / {swmsg}
                          <br />
-                         <p>MoldNo:-{moldno}</p>
+                         <p>MoldNo:-{moldno}</p> <p>SN:- {sn}</p>
                     </div>
                </div>
                <div className="btn-toolbar">
