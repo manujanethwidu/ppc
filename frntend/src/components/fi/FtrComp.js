@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import '../../css/FtrComp.css'
 import { useHistory } from 'react-router-dom'
 import SLTLDBConnection from '../../apis/SLTLDBConnection'
+import LocalHost from '../../apis/LocalHost'
 
 //Toastify
-import { notifyError, notifySuccessQk,notifyWarningQk } from '../../utils/toastify'
+import { notifyError, notifySuccessQk, notifyWarningQk } from '../../utils/toastify'
 import Login from '../../screens/Login'
 
 
@@ -46,22 +47,19 @@ const FtrComp = ({ tireDetails }) => {
      useEffect(() => {
           const fetchData = async () => {
                try {
-                    console.log(sn);
                     const fiInfo = await SLTLDBConnection.get(`/fi/fi/${sn}`)
-                    
-                    console.log(fiInfo.data);
                     if (fiInfo.data.data) {
                          setIsInspected(true)
-                          history.push(`/fi`)
-                          notifyWarningQk('already barcoded')
+                         history.push(`/fi`)
+                         notifyWarningQk('already barcoded')
                     }
-                   
+
                } catch (err) {
-                    console.log(err.message);
+                    notifyError(err.message)
                }
           }
           fetchData()
-          
+
 
      }, [tireDetails])
      //Initial state of useStates
@@ -79,14 +77,12 @@ const FtrComp = ({ tireDetails }) => {
           nmdirty: 0,
      }
 
-
      const [hd, setHd] = useState("")
      const [defSummery, setDefSummery] = useState(initDefSummery)
      const [us, setUs] = useState()
-     const[isInspected,setIsInspected] = useState(false)
+     const [isInspected, setIsInspected] = useState(false)
      //Destructre states
      const { tf, mm, ld, bo, bg, bfm, trfm, speu, sndp, other, nmdirty } = defSummery
-
 
      const handleInputChange = (e) => {
           const target = e.target;
@@ -135,40 +131,73 @@ const FtrComp = ({ tireDetails }) => {
 
      //Enter data
      const btnTireGradeHandler = async (e) => {
-          const updatedRestaurant = await SLTLDBConnection.put(`/fi/fi/${sn}`, {
-               sn,
-               pid,
-               moldno,
-               moldid,
-               userid: 5,
-               username: "xxx",
-               tf,
-               mm,
-               ld,
-               bo,
-               bg,
-               bfm,
-               trfm,
-               speu,
-               sndp,
-               other,
-               nmdirty,
-               hd,
-               us,
-               grade:e.target.name
-
-
-          });
-          //Hide button itself
-          // document.getElementById("btnEnter").style.visibility = 'hidden'
-
-          console.log(updatedRestaurant);
-          if (updatedRestaurant.data.error) {
-               return notifyError(updatedRestaurant.data.error)
+          //Create BarCode
+          var grade = e.target.name;
+          if (grade == "A+") {
+               grade = "A"
           }
+          const barcode = "L" + sn + pid + grade
+          const w = 0
+          var zpl = "^XA" +
+               "^FO" + (w + 50) + ",1" + "  ^BY2" + "^BCN,120,N,N,S" + "^FD" + barcode
+               + "^FS  ^CF0,40  ^FO" + (w + 100) + ",130^FD" + barcode + "^FS " + "  ^XZ";
 
-          history.push(`/fi`)
-          notifySuccessQk('updated')
+          try {
+
+               const updateBarCode = await LocalHost.put(`/bc`, { zpl, bcprinter: 1 })
+               //Error in server
+               if (updateBarCode.data.error) {
+                    return notifyError(updateBarCode.data.error +' insert temp. barcode table')
+               }
+               //row count in inserted result is not equal to 1
+               if (updateBarCode.data.data !== 1) {
+                    return notifyError('Not Inserted in temp barcode table')
+               }
+
+               //Update final inspection table
+               const insertFITbl = await SLTLDBConnection.put(`/fi/fi/${sn}`, {
+                    sn,
+                    pid,
+                    moldno,
+                    moldid,
+                    userid: 5,
+                    username: "xxx",
+                    tf,
+                    mm,
+                    ld,
+                    bo,
+                    bg,
+                    bfm,
+                    trfm,
+                    speu,
+                    sndp,
+                    other,
+                    nmdirty,
+                    hd,
+                    us,
+                    grade
+               });
+               //Hide button itself
+               // document.getElementById("btnEnter").style.visibility = 'hidden'
+
+               //If error in updating
+               if (insertFITbl.data.error) {
+                    return notifyError(insertFITbl.data.error)
+               }
+
+               const updateStockTbl = await SLTLDBConnection.put(`/stk/stockbarcode/${sn}`, {
+                    qg:grade,
+                    pid
+               });
+
+               if (updateStockTbl.data.error) {
+                    return notifyError(insertFITbl.data.error)
+               }
+               history.push(`/fi`)
+               notifySuccessQk('updated')
+          } catch (err) {
+               notifyError(err.message)
+          }
      }
 
      const goBackHandler = () => {
