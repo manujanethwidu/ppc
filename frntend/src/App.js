@@ -36,7 +36,7 @@ function App(props) {
 
   const setUserData = (user) => {
     setUserDataa(user)
-
+    localStorage.setItem('user', user.user_name);
   }
 
   return (
