@@ -25,6 +25,7 @@ function shallowEqual(object1, object2) {
 }
 
 const FtrComp = ({ tireDetails }) => {
+
      let history = useHistory()
      //Destructrue props
      const { tiresizebasic,
@@ -55,16 +56,28 @@ const FtrComp = ({ tireDetails }) => {
           other: 0,
           nmdirty: 0,
      }
-    
+
 
      const [hd, setHd] = useState("")
      const [defSummery, setDefSummery] = useState(initDefSummery)
-   
+     const [us, setUs] = useState()
      //Destructre states
      const { tf, mm, ld, bo, bg, bfm, trfm, speu, sndp, other, nmdirty } = defSummery
-    
 
-    
+
+     useEffect(() => {
+          const fetchData = async () => {
+               try {
+                    console.log('fetching');
+                    const fiInfo = await SLTLDBConnection.get(`/fi/fi`, { sn });
+                    console.log(fiInfo.data);
+               } catch (err) {
+                    console.log(err.message);
+               }
+          }
+          fetchData()
+
+     }, [])
 
      const handleInputChange = (e) => {
           const target = e.target;
@@ -103,10 +116,8 @@ const FtrComp = ({ tireDetails }) => {
                     setDefSummery({ ...defSummery, other: e.target.value })
                     break
           }
-
      }
 
-    
      //ButtonHandlers------------------------
      //Set HD
      const clickHandler = (e) => {
@@ -132,8 +143,11 @@ const FtrComp = ({ tireDetails }) => {
                speu,
                sndp,
                other,
-               nmdirty
-              
+               nmdirty,
+               hd,
+               us,
+
+
           });
           //Hide button itself
           // document.getElementById("btnEnter").style.visibility = 'hidden'
@@ -143,7 +157,7 @@ const FtrComp = ({ tireDetails }) => {
                return notifyError(updatedRestaurant.data.error)
           }
 
-          history.push(`/fi`)
+          // history.push(`/fi`)
           notifySuccessQk('updated')
      }
 
@@ -181,7 +195,12 @@ const FtrComp = ({ tireDetails }) => {
                          <tbody>
                               <tr className="table-warning">
                                    <td>US Reading</td>
-                                   <td><input type='number' className='form-control ' /></td>
+                                   <td><input
+                                        value={us}
+                                        onChange={e => setUs(e.target.value)}
+                                        type='number'
+                                        className='form-control ' />
+                                   </td>
                                    <td>
                                         <button
 
