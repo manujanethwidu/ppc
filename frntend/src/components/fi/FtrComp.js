@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../../css/FtrComp.css'
 import { useHistory } from 'react-router-dom'
 import SLTLDBConnection from '../../apis/SLTLDBConnection'
-import LocalHost from '../../apis/LocalHost'
+import printerHost from '../../apis/printerHost'
 
 //Toastify
 import { notifyError, notifySuccessQk, notifyWarningQk } from '../../utils/toastify'
@@ -49,6 +49,7 @@ const FtrComp = ({ tireDetails }) => {
                try {
                     const fiInfo = await SLTLDBConnection.get(`/fi/fi/${sn}`)
                     if (fiInfo.data.data) {
+                         
                          setIsInspected(true)
                          history.push(`/fi`)
                          notifyWarningQk('already barcoded')
@@ -144,7 +145,7 @@ const FtrComp = ({ tireDetails }) => {
 
           try {
 
-               const updateBarCode = await LocalHost.put(`/bc`, { zpl, bcprinter: 1 })
+               const updateBarCode = await printerHost.put(`/bc`, { zpl, bcprinter: 1 })
                //Error in server
                if (updateBarCode.data.error) {
                     return notifyError(updateBarCode.data.error +' insert temp. barcode table')
