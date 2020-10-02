@@ -26,7 +26,6 @@ function shallowEqual(object1, object2) {
 }
 
 const FtrComp = ({ tireDetails }) => {
-
      let history = useHistory()
      //Destructrue props
      const { tiresizebasic,
@@ -40,7 +39,6 @@ const FtrComp = ({ tireDetails }) => {
           pid,
           moldid,
           sn
-
      } = tireDetails
 
      //Check already inspected tire
@@ -137,7 +135,7 @@ const FtrComp = ({ tireDetails }) => {
           if (grade == "A+") {
                grade = "A"
           }
-          const barcode = "L" + sn + pid + grade
+          const barcode = "P-"+pid+"L" + sn + grade
           const w = 0
           var zpl = "^XA" +
                "^FO" + (w + 50) + ",1" + "  ^BY2" + "^BCN,120,N,N,S" + "^FD" + barcode
